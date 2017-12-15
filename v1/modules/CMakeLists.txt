@@ -19,3 +19,7 @@ add_subdirectory(iothub)
 add_subdirectory(logger)
 add_subdirectory(hello_world)
 add_subdirectory(azure_functions)
+
+#Andriy Rymar
+# Adding Java Gateway compilation
+add_subdirectory(java_gw)
