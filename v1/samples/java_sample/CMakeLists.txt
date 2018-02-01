@@ -37,4 +37,4 @@ copy_gateway_dll(java_sample ${CMAKE_CURRENT_BINARY_DIR}/$(Configuration) )
 copy_iothub_client_dll(java_sample ${CMAKE_CURRENT_BINARY_DIR}/$(Configuration) )
 
 
-add_sample_to_solution(java_sample)
+add_module_to_solution(java_sample)
