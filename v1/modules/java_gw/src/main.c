@@ -33,7 +33,7 @@ int main(int argc, char** argv)
         }
         else
         {
-            LogError("Failed to initialize the platform.");
+            printf("Failed to initialize the platform.");
         }
     }
     return 0;
