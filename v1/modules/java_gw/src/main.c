@@ -4,6 +4,7 @@
 #include <stdio.h>
 
 #include "gateway.h"
+#include "azure_c_shared_utility/platform.h"
 
 int main(int argc, char** argv)
 {
@@ -15,16 +16,24 @@ int main(int argc, char** argv)
     }
     else
     {
-        if ((gateway = Gateway_CreateFromJson(argv[1])) == NULL)
+        if (platform_init() == 0)
         {
-            printf("failed to create the gateway from JSON\n");
+            if ((gateway = Gateway_CreateFromJson(argv[1])) == NULL)
+            {
+                printf("failed to create the gateway from JSON\n");
+            }
+            else
+            {
+                printf("gateway successfully created from JSON\n");
+                printf("gateway shall run until ENTER is pressed\n");
+                (void)getchar();
+                Gateway_Destroy(gateway);
+            }
+            platform_deinit();
         }
         else
         {
-            printf("gateway successfully created from JSON\n");
-            printf("gateway shall run until ENTER is pressed\n");
-            (void)getchar();
-            Gateway_Destroy(gateway);
+            LogError("Failed to initialize the platform.");
         }
     }
     return 0;
