@@ -34,6 +34,8 @@ typedef struct MODBUSREAD_HANDLE_DATA_TAG
 #define MACSTRLEN 17
 #define BUFSIZE 1024
 
+#define DEFAULT_PORT 502
+
 /*
  ----------------------- --------
 |MBAP Header description|Length  |
@@ -225,6 +227,7 @@ static bool addOneServer(MODBUS_READ_CONFIG * config, JSON_Object * arg_obj)
 {
     bool result = true;
     const char* server_str = json_object_get_string(arg_obj, "serverConnectionString");
+    const char* server_port = json_object_get_string(arg_obj, "serverConnectionPort");
     const char* mac_address = json_object_get_string(arg_obj, "macAddress");
     const char* baud_rate = json_object_get_string(arg_obj, "baudRate");
     const char* stop_bits = json_object_get_string(arg_obj, "stopBits");
@@ -300,6 +303,12 @@ static bool addOneServer(MODBUS_READ_CONFIG * config, JSON_Object * arg_obj)
     if (data_bits != NULL)
     {
         config->data_bits = atoi(data_bits);
+    }
+
+    config->server_port = DEFAULT_PORT;
+    if (server_port != NULL)
+    {
+        config->server_port = atoi(server_port);
     }
 
     config->stop_bits = CONFIG_STOP_ONE;
@@ -989,7 +998,7 @@ static void set_com_state(MODBUS_READ_CONFIG * config)
 #endif
 
 }
-static SOCKET_TYPE connect_modbus_server_tcp(const char * server_ip)
+static SOCKET_TYPE connect_modbus_server_tcp(const char * server_ip, const char * server_port)
 {
     SOCKET_TYPE s;
     struct sockaddr_in server;
@@ -1003,7 +1012,7 @@ static SOCKET_TYPE connect_modbus_server_tcp(const char * server_ip)
 
         server.sin_addr.s_addr = inet_addr(server_ip);
         server.sin_family = AF_INET;
-        server.sin_port = htons(502);
+        server.sin_port = htons(server_port);
         if (connect(s, (struct sockaddr *)&server, sizeof(server)) < 0)
         {
             LogError("connect error");
@@ -1047,7 +1056,7 @@ static int connect_modbus_server(MODBUS_READ_CONFIG * server_config)
     }
     else
     {
-        server_config->socks = connect_modbus_server_tcp(server_config->server_str);
+        server_config->socks = connect_modbus_server_tcp(server_config->server_str, server_config->server_port);
 
         if (server_config->socks == INVALID_SOCKET)
         {
