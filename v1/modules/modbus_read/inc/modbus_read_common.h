@@ -80,6 +80,7 @@ struct MODBUS_READ_CONFIG_TAG
     MODBUS_READ_CONFIG * p_next;
     MODBUS_READ_OPERATION * p_operation;
     size_t read_interval;
+    size_t server_port;
     char server_str[16];
     char mac_address[18];
     char device_type[64];
