@@ -7,6 +7,7 @@
 #include "azure_c_shared_utility/platform.h"
 
 int main(int argc, char** argv)
+     char c;
 {
    GATEWAY_HANDLE gateway;
    if (argc != 2)
@@ -27,7 +28,6 @@ int main(int argc, char** argv)
                printf("gateway successfully created from JSON\n");
                printf("gateway shall run until ENTER is pressed\n");
                do {
-                   char c;
                    c = getchar();
                } while (c != 5);
                Gateway_Destroy(gateway);
