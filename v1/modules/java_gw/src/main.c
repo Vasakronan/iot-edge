@@ -7,7 +7,6 @@
 #include "azure_c_shared_utility/platform.h"
 
 int main(int argc, char** argv)
-     char c;
 {
    GATEWAY_HANDLE gateway;
    if (argc != 2)
