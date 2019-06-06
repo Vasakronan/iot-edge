@@ -27,10 +27,8 @@ int main(int argc, char** argv)
            {
                printf("gateway successfully created from JSON\n");
                printf("gateway shall run until ENTER is pressed\n");
-               do {
-                   c = getchar();
-               } while (c != 5);
-               Gateway_Destroy(gateway);
+               while (getchar() != 5);
+               printf("1");
            }
            platform_deinit();
        }
